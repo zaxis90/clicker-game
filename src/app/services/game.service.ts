@@ -16,6 +16,8 @@ export class GameService {
 
   public arrRandomNumbers: number[] = [];
 
+  public getStartedBtn: any;
+
   private display: BehaviorSubject<'open' | 'close'> = new BehaviorSubject<'open' | 'close'>('close');
 
   public watch(): Observable<'open' | 'close'> {

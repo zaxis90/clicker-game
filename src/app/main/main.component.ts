@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, QueryList, ViewChildren} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {GameService} from "../services/game.service";
 
 @Component({
@@ -12,6 +12,8 @@ export class MainComponent implements AfterViewInit {
 
   @ViewChildren('square') squareElements: QueryList<ElementRef> | undefined;
 
+  @ViewChild('start') startButton: ElementRef | undefined;
+
   public squares = Array.from(Array(100));
 
   public interval: any;
@@ -24,6 +26,7 @@ export class MainComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.gameService.screens = this.screenElements?.map((item) => item.nativeElement);
     this.gameService.squares = this.squareElements?.map((item) => item.nativeElement);
+    this.gameService.getStartedBtn = this.startButton?.nativeElement;
   }
 
   public changeStartScreen(event: any) {
@@ -43,23 +46,25 @@ export class MainComponent implements AfterViewInit {
 
   public startGame() {
     if (this.gameService.countPlayer >= 10 || this.gameService.countComputer >= 10) {
+      this.gameService.getStartedBtn.style.visibility = "visible";
       return this.gameService.open();
     } else {
+      this.gameService.getStartedBtn.style.visibility = 'hidden';
       setTimeout(this.runInterval(), 1000);
     }
   }
 
   private runInterval(): any {
     let randomSquare = this.gameService.getRandomElement();
-    randomSquare.style.background = 'yellow';
-    if (randomSquare.style.background === 'yellow') {
+    randomSquare.style.backgroundColor = 'yellow';
+    if (randomSquare.style.backgroundColor === 'yellow') {
       let colorInterval = setTimeout(() => {
-        if (randomSquare.style.background != 'green') {
-          randomSquare.style.background = 'red';
+        if (randomSquare.style.backgroundColor != 'green') {
+          randomSquare.style.backgroundColor = 'red';
           this.gameService.countComputer++;
           this.startGame();
         }
-      }, this.interval);
+      }, Number(this.interval));
       if (this.gameService.countComputer >= 10 || this.gameService.countPlayer >= 10) {
         clearTimeout(colorInterval);
       }
@@ -67,8 +72,8 @@ export class MainComponent implements AfterViewInit {
   }
 
   public getPoint(event: any) {
-    if (event.style.background === 'yellow') {
-      event.style.background = 'green';
+    if (event.style.backgroundColor === 'yellow') {
+      event.style.backgroundColor = 'green';
       this.gameService.countPlayer++;
       if (this.gameService.countPlayer >= 10) {
         return this.gameService.open();
@@ -78,7 +83,7 @@ export class MainComponent implements AfterViewInit {
     }
   }
 
-  public setInterval(event: any) {
+  public getInterval(event: any) {
     event.target.value.replace(/[^0-9]/g, '');
     this.interval = Math.floor(event.target.value);
   }

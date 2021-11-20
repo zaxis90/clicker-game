@@ -7,7 +7,7 @@
     <h2>Установите интервал в милисекундах (от 500 до 3000)</h2>
     <h4>(от этого будет зависеть сложность игры)</h4>
     <form class="form">
-      <input type="number" class="input" (change)="setInterval($event)" min="500">
+      <input type="number" class="input" (change)="getInterval($event)" min="500">
       <button class="btn" (click)="changeTimeScreen($event)">ОК</button>
     </form>
     <p class="error" *ngIf="isInterval === false">Введено неверное значение</p>
@@ -20,7 +20,7 @@
           <div #square class="square" [id]="i" *ngFor="let item of squares; index as i"
                (click)="getPoint($event.target)"></div>
         </div>
-        <button class="go" (click)="startGame()">Начать</button>
+        <button #start class="go" (click)="startGame()">Начать</button>
       </div>
       <h3>Счет компьютера: <span id="score__computer">{{gameService.countComputer}}</span></h3>
     </div>

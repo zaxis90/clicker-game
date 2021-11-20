@@ -33,6 +33,7 @@ export class ModalComponent implements OnInit {
 
   public close() {
     this.gameService.close();
+    this.gameService.getStartedBtn.style.visibility = "visible";
   }
 
 }
