@@ -1,0 +1,13 @@
+<ng-container *ngIf="display$ | async as display">
+  <section [class.open]="display === 'open'" (click)="close()">
+    <div (click)="$event.stopPropagation()">
+      <button class="close" type="button" (click)="close()">X</button>
+      <h1 *ngIf="gameService.countPlayer === 10">Вы победили! 😉</h1>
+      <h1 *ngIf="gameService.countComputer === 10">Вы проиграли 😔</h1>
+      <h2>Ваш счет: {{gameService.countPlayer}}</h2>
+      <h2>Счет компьютера: {{gameService.countComputer}}</h2>
+      <button class="btn" (click)="changeInterval()">Изменить интервал</button>
+      <button class="btn" (click)="startAgain()">Начать игру заново</button>
+    </div>
+  </section>
+</ng-container>

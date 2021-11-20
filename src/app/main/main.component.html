@@ -1,0 +1,28 @@
+<div class="container">
+  <div #screen class="screen">
+    <h1>Clicker Game</h1>
+    <a href="#" class="start" id="start" (click)="changeStartScreen($event)">Войти в игру</a>
+  </div>
+  <div #screen class="screen">
+    <h2>Установите интервал в милисекундах (от 500 до 3000)</h2>
+    <h4>(от этого будет зависеть сложность игры)</h4>
+    <form class="form">
+      <input type="number" class="input" (change)="setInterval($event)" min="500">
+      <button class="btn" (click)="changeTimeScreen($event)">ОК</button>
+    </form>
+    <p class="error" *ngIf="isInterval === false">Введено неверное значение</p>
+  </div>
+  <div #screen class="screen">
+    <div class="holder">
+      <h3>Счет игрока: <span id="score__player">{{gameService.countPlayer}}</span></h3>
+      <div>
+        <div class="board" id="board">
+          <div #square class="square" [id]="i" *ngFor="let item of squares; index as i"
+               (click)="getPoint($event.target)"></div>
+        </div>
+        <button class="go" (click)="startGame()">Начать</button>
+      </div>
+      <h3>Счет компьютера: <span id="score__computer">{{gameService.countComputer}}</span></h3>
+    </div>
+  </div>
+</div>
